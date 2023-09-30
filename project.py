@@ -74,7 +74,6 @@ def pairplot():
     print(returns)
     # pairplot of returns df
     sns.pairplot(data = returns)
-pairplot()
 
 # dates each bank stocks had the best and worst single day return 
 
@@ -100,47 +99,52 @@ rstd_2015 = returns.loc['2015-01-03':'2015-12-31'].std()
 #analysis: the riskiest in 2015 was MS and least riskiest in 2015 was WFC
 print(rstd_2015)
 
-# sns.distplot(returns.loc['2015-01-01': '2015-12-31']['MS Returns'], color = 'green', bins = 50)
-# for ticks in tickers:
-#     bank_stocks[ticks]['Close'].plot(label = ticks, figsize=(12,4))
-# plt.legend()
-# plt.show()
+# plot for Close Price for each bank 
+def lineplot():
+    # using xs instead
+    # bank_stocks.xs(key = 'Close', level='Stock Info', axis = 1).plot()
+    for ticks in tickers:
+        bank_stocks[ticks]['Close'].plot(label = ticks, figsize=(12,4))
+    plt.legend()
+    plt.show()
+# lineplot()
 
-# DISTPLOT using seaborn, for Morgan Stanley's 2015 returns
-sns.distplot(returns.loc['2015-01-01':'2015-12-31']['MS Returns'], color = 'green', bins=100)
-#analysis: MS seems to be fairly distributed in 2015
+def distplot():
+    # DISTPLOT using seaborn, for Morgan Stanley's 2015 returns
+    sns.distplot(returns.loc['2015-01-01':'2015-12-31']['MS Returns'], color = 'green', bins=100)
+    #analysis: MS seems to be fairly distributed in 2015
 
-# DISTPLOT using seaborn, for CitiGroup's 2008 returns
-sns.distplot(returns['2008-01-01': '2008-12-31']['C Returns'], color = 'red', bins = 50)
-#analysis: This was the during the Collapse of CitiGroup where the stock had dropped 76% (second worst drop in terms of banks)
-#further shown in the chart where it depicts high volatility within the year
-
+    # DISTPLOT using seaborn, for CitiGroup's 2008 returns
+    # sns.distplot(returns['2008-01-01': '2008-12-31']['C Returns'], color = 'red', bins = 50)
+    #analysis: This was the during the Collapse of CitiGroup where the stock had dropped 76% (second worst drop in terms of banks)
+    #further shown in the chart where it depicts high volatility within the year
+# distplot()
 
 ##################
 # Visualizations #
 ##################
 
-# plot for Close Price for each bank 
-# for ticks in tickers:
-#     bank_stocks[ticks]['Close'].plot(label=ticks, figsize=(12,4))
-# plt.show()
-
-# using xs instead
-# bank_stocks.xs(key = 'Close', level='Stock Info', axis = 1).plot()
-
-
 # calculating MOVING AVERAGES 
 # 30 day average of Bank of America's Close Price stock for 2008
-# BACma = BAC.loc['2008-01-01': '2008-12-30']['Close'].rolling(30).mean()
-# BACma.plot(label='30 Day Mov')
-# BAC.loc['2008-01-01':'2009-01-01']['Close'].rolling(window=30).mean().plot(label='30 Day Mov')
-# BAC.loc['2008-01-01':'2008-01-01']['Close'].plot(label = 'BAC Close')
-# plt.figure(figsize = (12,4))
-# plt.legend()
-# plt.show()
+def moving_avg(): #favourite
+    # BACma = BAC.loc['2008-01-01': '2008-12-30']['Close'].rolling(30).mean()
+    # BACma.plot(label='30 Day Mov')
+    plt.figure(figsize = (12,4))
+    BAC.loc['2008-01-01':'2009-01-01']['Close'].rolling(window=30).mean().plot(label='30 Day Mov')
+    BAC.loc['2008-01-01':'2009-01-01']['Close'].plot(label='BAC CLOSE')
+    plt.legend()
+    plt.show()
+# moving_avg()
 
-corr = bank_stocks.xs(key = 'Close', level = 'Stock Info', axis = 1).corr()
-corr
-sns.heatmap(corr, annot = True)
+def heatmap():
+    corr = bank_stocks.xs(key = 'Close', level = 'Stock Info', axis = 1).corr()
+    sns.heatmap(corr, annot = True)
+heatmap()
+
+def clustermap(): # run time error
+    sns.clustermap(bank_stocks.xs(key='Close',axis=1,level='Stock Info').corr(),annot=True)
+# clustermap()
+
 # Jose Arnel Manipon
 
+# TO DO, Clean up Graphs and Each title
