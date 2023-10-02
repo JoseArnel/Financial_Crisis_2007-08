@@ -115,7 +115,7 @@ def distplot():
     #analysis: MS seems to be fairly distributed in 2015
 
     # DISTPLOT using seaborn, for CitiGroup's 2008 returns
-    # sns.distplot(returns['2008-01-01': '2008-12-31']['C Returns'], color = 'red', bins = 50)
+    sns.distplot(returns['2008-01-01': '2008-12-31']['C Returns'], color = 'red', bins = 50)
     #analysis: This was the during the Collapse of CitiGroup where the stock had dropped 76% (second worst drop in terms of banks)
     #further shown in the chart where it depicts high volatility within the year
 # distplot()
@@ -130,21 +130,23 @@ def moving_avg(): #favourite
     # BACma = BAC.loc['2008-01-01': '2008-12-30']['Close'].rolling(30).mean()
     # BACma.plot(label='30 Day Mov')
     plt.figure(figsize = (12,4))
-    BAC.loc['2008-01-01':'2009-01-01']['Close'].rolling(window=30).mean().plot(label='30 Day Mov')
-    BAC.loc['2008-01-01':'2009-01-01']['Close'].plot(label='BAC CLOSE')
+    BAC.loc['2008-01-01':'2009-01-01']['Close'].rolling(window=30).mean().plot(label='30Day Moving Avg')
+    BAC.loc['2008-01-01':'2009-01-01']['Close'].plot(label='BAC CLOSE PRICE')
     plt.legend()
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.title("Bank of America's 08 Close Price v 30Day Moving Avg")
     plt.show()
-# moving_avg()
+moving_avg()
 
 def heatmap():
     corr = bank_stocks.xs(key = 'Close', level = 'Stock Info', axis = 1).corr()
     sns.heatmap(corr, annot = True)
-heatmap()
+# heatmap()
 
 def clustermap(): # run time error
     sns.clustermap(bank_stocks.xs(key='Close',axis=1,level='Stock Info').corr(),annot=True)
 # clustermap()
 
 # Jose Arnel Manipon
-
 # TO DO, Clean up Graphs and Each title
