@@ -10,8 +10,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 sns.set_style('whitegrid')
 
-# import classes, and make functions, and a main
-
 # Exploratory Data Analysis of stock prices, to practice visualizationas, python, and external libraries such as; Pandas, Matplot, Seaborn, Numpy
 # This project focuses on American Bank Stocks during the 2008-2009 Economic Crash, to see how they they progress and recovered from the Financial Crisis
 # to more recent dates of the early 2016 
@@ -49,8 +47,6 @@ print(bank_stocks)
 bank_stocks.columns.names = ['Bank Ticker', 'Stock Info']
 print(bank_stocks.head())
 
-print(bank_stocks.xs('BAC', level = 'Bank Ticker', axis = 1).pct_change())
-
 #######
 # EDA #
 ####### exploratory data analysis
@@ -70,29 +66,29 @@ returns = pd.DataFrame()
 def pairplot():
     for tick in tickers:
         # returns[tick + " Returns"] = (bank_stocks.xs(tick, level='Bank Ticker', axis = 1)).pct_change()
+        # print(bank_stocks.xs('BAC', level = 'Bank Ticker', axis = 1).pct_change())
         returns[tick + " Returns"] = bank_stocks[tick]['Close'].pct_change()
     print(returns)
     # pairplot of returns df
     sns.pairplot(data = returns)
 
 # dates each bank stocks had the best and worst single day return 
-
 # best single day return
 rmax = returns.idxmax()
-# print(rmax)
 #analysis: 2009-01-20 - Barack Obama Inauguration,  4 banks returned same day of worst day
+# print(rmax)
 
 # worst single day return
 rmin = returns.idxmin()
-# print(rmin)
 #analysis: Morgan lost 80% of its market, 42% slide in its share price in 2 days, JP Moregans next day is better 
+# print(rmin)
 
 # the lower the std, the MORE CLUSTERED the distribution towards mean (more reliable)
 # the higher the std, the MORE SPREAD out the distribution (the more riskier)
 # STANDARD DEVIATIONS of returns (which is the riskiest)
 rstd = returns.std()
-print(rstd)
 #analysis: the riskiest stock is C & the least riskiest is GS
+print(rstd)
 
 # std for year 2015
 rstd_2015 = returns.loc['2015-01-03':'2015-12-31'].std()
@@ -123,7 +119,6 @@ def distplot():
 ##################
 # Visualizations #
 ##################
-
 # calculating MOVING AVERAGES 
 # 30 day average of Bank of America's Close Price stock for 2008
 def moving_avg(): #favourite
