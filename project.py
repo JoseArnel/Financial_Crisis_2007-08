@@ -130,7 +130,7 @@ def moving_avg(): #favourite
     plt.legend()
     plt.xlabel('Date')
     plt.ylabel('Price')
-    plt.title("Bank of America's 08 Close Price v 30Day Moving Avg")
+    plt.title("Bank of America's 08 Close Price v. 30Day Moving Avg")
     plt.show()
 moving_avg()
 
