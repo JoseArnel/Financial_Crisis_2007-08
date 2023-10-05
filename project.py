@@ -1,4 +1,3 @@
-# Jose Arnel Manipon
 import pandas_datareader.data as wb
 import pandas as pd
 import numpy as np
@@ -9,6 +8,8 @@ import yfinance as yfin
 import seaborn as sns
 import matplotlib.pyplot as plt
 sns.set_style('whitegrid')
+
+# double check C
 
 # Exploratory Data Analysis of stock prices, to practice visualizationas, python, and external libraries such as; Pandas, Matplot, Seaborn, Numpy
 # This project focuses on American Bank Stocks during the 2008-2009 Economic Crash, to see how they they progress and recovered from the Financial Crisis
@@ -33,15 +34,15 @@ JPM =wb.DataReader('JPM', start, end)
 MS = wb.DataReader('MS', start, end)
 # Wells Fargo 
 WFC = wb.DataReader('WFC', start, end)
-print(C.head())
+# print(C.head())
 
 tickers = ['BAC', 'C', 'GS', 'JPM', 'MS', 'WFC']
-print(tickers)
+# print(tickers)
 
 # help(pd.concat)
 # CONCANTENATE the Bank Dataframes 
-bank_stocks = pd.concat([BAC, C, GS, JPM, MS, WFC], axis = 1, keys=tickers)
-print(bank_stocks)
+bank_stocks = pd.concat([BAC, C, GS, JPM, MS, WFC], axis = 1, keys=tickers) # axis 1 cause concat with columns.
+# print(bank_stocks)
 
 # SET column name levels
 bank_stocks.columns.names = ['Bank Ticker', 'Stock Info']
@@ -56,7 +57,7 @@ print(bank_stocks.head())
 
 # max Close price for each bank stock throughout, time periods
 max = bank_stocks.xs(key='Close', level='Stock Info', axis=1).max()
-print(max)
+# print(max)
 
 # new empty DataFrame 
 returns = pd.DataFrame()
@@ -70,17 +71,18 @@ def pairplot():
         returns[tick + " Returns"] = bank_stocks[tick]['Close'].pct_change()
     print(returns)
     # pairplot of returns df
-    sns.pairplot(data = returns)
+    sns.pairplot(data = returns[1:])
+    #analysis: MS is the lowest, JPM & WFC seem to be the highest, C & HS slightly simlar 
 
 # dates each bank stocks had the best and worst single day return 
 # best single day return
 rmax = returns.idxmax()
-#analysis: 2009-01-20 - Barack Obama Inauguration,  4 banks returned same day of worst day
+#analysis: 2009-01-20 - Barack Obama Inauguration, 4 banks returned same day of worst day
 # print(rmax)
 
 # worst single day return
 rmin = returns.idxmin()
-#analysis: Morgan lost 80% of its market, 42% slide in its share price in 2 days, JP Moregans next day is better 
+#analysis: Morgan lost 80% of its market, 42% slide in its share price in 2 days, JP Morgans next day is better 
 # print(rmin)
 
 # the lower the std, the MORE CLUSTERED the distribution towards mean (more reliable)
@@ -88,12 +90,12 @@ rmin = returns.idxmin()
 # STANDARD DEVIATIONS of returns (which is the riskiest)
 rstd = returns.std()
 #analysis: the riskiest stock is C & the least riskiest is GS
-print(rstd)
+print(returns.std())
 
 # std for year 2015
 rstd_2015 = returns.loc['2015-01-03':'2015-12-31'].std()
 #analysis: the riskiest in 2015 was MS and least riskiest in 2015 was WFC
-print(rstd_2015)
+# print(rstd_2015)
 
 # plot for Close Price for each bank 
 def lineplot():
@@ -102,8 +104,11 @@ def lineplot():
     for ticks in tickers:
         bank_stocks[ticks]['Close'].plot(label = ticks, figsize=(12,4))
     plt.legend()
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.title("10 Year Closing Prices of American Banks")
     plt.show()
-# lineplot()
+lineplot()
 
 def distplot():
     # DISTPLOT using seaborn, for Morgan Stanley's 2015 returns
@@ -132,7 +137,7 @@ def moving_avg(): #favourite
     plt.ylabel('Price')
     plt.title("Bank of America's 08 Close Price v. 30Day Moving Avg")
     plt.show()
-moving_avg()
+# moving_avg()
 
 def heatmap():
     corr = bank_stocks.xs(key = 'Close', level = 'Stock Info', axis = 1).corr()
