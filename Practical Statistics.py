@@ -29,6 +29,18 @@ ax.set_ylabel('Verizon (VZ)')
 ax.axhline(0, color='grey', lw=1)
 ax.axvline(0, color='grey', lw=1)
 
+# ex: Exploring Two or More Varaibles, pg 37
+kc_tax0 = kctax.loc[(kc_taax.TaxAssessedValue < 750000)& #pandas
+                    (kc_tax.SqFtTotLiving > 100) & 
+                    (kc_taxSqFtTotLiving <35000), :]
+kc_tax0.shape
+(432693, 3)
+ax = kc_tax0.plot.hexbin(x='SqFtTotLiving', y='TaxAssessedValue',    #hexbin
+                         gridsize=30, sharex=False, figsize=(5,4))
+ax = sns.kdeptplot(kctax0.SqFtTotLiving, kc_tax0.TaxAssessedValue, ax=ax) #seaborn
+ax.set_xlabel('Finished Square Feet')
+ax.set_ylabel('Tax-Assessed Value')
+
 #ex: Histogram of Annual Incomes of 1,000 laon applicants
 import pandas as pd
 import seaborn as sns
@@ -50,3 +62,5 @@ g = sns.FacetGrid(results, col='type', col_wrap=1, height=2, aspect=2)
 g.map(plt.hist,'income', range[0,20000], bins=40)
 g.set_axis_laels('Income', 'Count')
 g.set_titles('{col_name}')
+
+
