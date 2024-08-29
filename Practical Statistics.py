@@ -41,7 +41,7 @@ ax = sns.kdeptplot(kctax0.SqFtTotLiving, kc_tax0.TaxAssessedValue, ax=ax) #seabo
 ax.set_xlabel('Finished Square Feet')
 ax.set_ylabel('Tax-Assessed Value')
 
-#ex: Histogram of Annual Incomes of 1,000 laon applicants
+#ex: Histogram of Annual Incomes of 1,000 loan applicants, pg 37
 import pandas as pd
 import seaborn as sns
 
@@ -63,4 +63,39 @@ g.map(plt.hist,'income', range[0,20000], bins=40)
 g.set_axis_laels('Income', 'Count')
 g.set_titles('{col_name}')
 
+# Chapter 2: Data Sampling Distirbutions
+# A sample is a subset of data from a larger data set; statisticians call this larger data set the population
+### Data quality often matters more than data quantity, Data quality in data science involves completeness, consisteny of format, cleanliness, and accuracy of individual data points
 
+#ex: Histogram of annual incomes of 1,000 loan applicants
+import pandas as pd
+import seaborn as sns
+
+sample_data = pd.DataFrame({ 
+    'income' : loans_income.sample(1000),
+    'type': 'Data',
+})
+sample_mean_05 = pd.DataFrame({
+    'income': [loans_income.sample(20).mean for _ in range(1000)],
+    'type': 'Mean ofn 5' , 
+})
+sample_mean_20 = pd.DataFrame({
+    'income': [laons_income.sample(20),mean for _ in range(1000)],
+    'type': 'Mean of 20',
+})
+results = pd.concat([sample_data, sample_mean_05, sample_mean_20])
+
+g = sns.FacetGrid(results, col='type', col_wrap=1, height=2, aspect=2)
+g.map(plt.hist, 'income', range=[0,200000], bins=40)
+g.set_axis_labels('Income', 'Count') s
+g.set_titles('{col_name}')
+
+# bootstrap pg 63
+result = []
+for nrepeat in range(1000):
+    sample = resample(loans_income)
+    results.append(sample.median())
+results = pd.Series(results)
+print('Bootstrap Statistics:')
+print(f'original: {loans_income.median()}')
+print(f'std. error: {results.std()}')
