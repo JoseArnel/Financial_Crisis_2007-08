@@ -90,7 +90,7 @@ g.map(plt.hist, 'income', range=[0,200000], bins=40)
 g.set_axis_labels('Income', 'Count') s
 g.set_titles('{col_name}')
 
-# bootstrap pg 63
+# Bootstrap, pg 63
 result = []
 for nrepeat in range(1000):
     sample = resample(loans_income)
@@ -99,3 +99,16 @@ results = pd.Series(results)
 print('Bootstrap Statistics:')
 print(f'original: {loans_income.median()}')
 print(f'std. error: {results.std()}')
+
+# a QQ plot for the daily stock returns for Netflix (NFLX), pg 71
+nflx = sp500_px.NFLX
+nflx = np.diff(np.log(nflx[nflx>0]))
+fig, ax = plt.subplots(figsize=(4,4))
+stats.probplot(nflx, plot=ax)
+
+# LunearRegression scikit-learn's
+predictors = ['SqFtToLiving', 'SqFtLot', 'Bathrooms', 'Bedrooms', 'BldgGrade']
+outcome = 'AdjSalePrice'
+
+house_lm = LinearRegression()
+house_lm =.fit(house[predictors], house[outcome])
